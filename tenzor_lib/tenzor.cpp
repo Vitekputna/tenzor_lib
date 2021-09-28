@@ -33,7 +33,7 @@ T& tenzor<T>::operator[](const int pos)
 }
 
 template<typename T>
-tenzor<T> tenzor<T>::operator+(tenzor<T> other) // Pass with reference!
+tenzor<T> tenzor<T>::operator+(tenzor<T> &other)
 {
 	tenzor<T> output(other.x_size,other.y_size);
 
@@ -44,14 +44,49 @@ tenzor<T> tenzor<T>::operator+(tenzor<T> other) // Pass with reference!
 			output.get(i, j) = this->get(i, j) + other.get(i,j);
 		}
 	}
+
+	
 	return output;
 }
 
-//template<typename T>
-//T& tenzor<T>::operator-(const T other)
-//{
-//	// TODO: insert return statement here
-//}
+template<typename T>
+tenzor<T> tenzor<T>::operator-(tenzor<T>& other)
+{
+	tenzor<T> output(other.x_size, other.y_size);
+
+	for (int i = 0; i < x_size; i++)
+	{
+		for (int j = 0; j < y_size; j++)
+		{
+			output.get(i, j) = this->get(i, j) - other.get(i, j);
+		}
+	}
+
+
+	return output;
+}
+
+template<typename T>
+tenzor<T> tenzor<T>::operator*(int number)
+{
+	tenzor<T> output(x_size, y_size);
+
+	for (int i = 0; i < x_size; i++)
+	{
+		for (int j = 0; j < y_size; j++)
+		{
+			output.get(i, j) = number * this->get(i, j);
+		}
+	}
+
+	return output;
+}
+
+template<typename T>
+tenzor<T> tenzor<T>::operator*(float number)
+{
+	return tenzor<T>();
+}
 
 template<typename T>
 tenzor<T>::tenzor(const tenzor& A)

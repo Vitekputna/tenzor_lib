@@ -3,6 +3,7 @@
 #include "tenzor.h"
 #include "Identity.h"
 
+
 int main()
 {
 	tenzor<int> A(2,2);
@@ -14,6 +15,11 @@ int main()
 	Identity<int> B(2,2);
 	B.print();
 
-	tenzor<int> C = A+B;
+	tenzor<int> C = A-B;
 	C.print();
+
+	int a = 2;
+	int b = 2;
+	tenzor<int> D = a*A*b;
+	D.print();
 }
