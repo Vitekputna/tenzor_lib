@@ -54,6 +54,22 @@ tenzor<T> tenzor<T>::operator+(tenzor<T> other) // Pass with reference!
 //}
 
 template<typename T>
+tenzor<T>::tenzor(const tenzor& A)
+{
+	x_size = A.x_size;
+	y_size = A.y_size;
+
+	
+
+	data_p = reinterpret_cast<T*>(malloc(x_size * y_size*sizeof(T)));
+
+	if (data_p)
+	{
+		std::memcpy(data_p, A.data_p, x_size * y_size * sizeof(T));
+	}
+}
+
+template<typename T>
 T& tenzor<T>::get(const int x, const int y)
 {
 	T* address = data_p;

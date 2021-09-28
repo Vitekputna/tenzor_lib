@@ -14,8 +14,6 @@ int main()
 	Identity<int> B(2,2);
 	B.print();
 
-	tenzor<int> C(2, 2);
-
-	C = A + B;
-	C.print();	
+	tenzor<int> C = A+B;
+	C.print();
 }

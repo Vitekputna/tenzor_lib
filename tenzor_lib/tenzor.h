@@ -15,6 +15,7 @@ public:
 	T& operator[](const int pos);
 	tenzor<T> operator+(tenzor<T> other);
 	//T& operator-(const T other);
+	tenzor(const tenzor& A);
 	T& get(const int x, const int y);
 	void print();
 
