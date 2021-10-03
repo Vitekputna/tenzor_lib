@@ -10,20 +10,20 @@ template<typename T>
 Identity<T>::~Identity(){}
 
 template<typename T>
-Identity<T>::Identity(int x_size, int y_size)
+Identity<T>::Identity(int rows, int collums)
 {
-	this->x_size = x_size;
-	this->y_size = y_size;
+	this->rows = rows;
+	this->collums = collums;
 
-	this->data_p = reinterpret_cast<T*>(calloc(x_size * y_size, sizeof(T)));
+	this->data_p = reinterpret_cast<T*>(calloc(rows * collums, sizeof(T)));
 
-	for (int i = 0; i < x_size; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < y_size; j++)
+		for (int j = 0; j < collums; j++)
 		{
 			if(i == j)
 			{
-				this->data_p[j * x_size + i] = 1;
+				this->data_p[j * rows + i] = 1;
 			}
 		}
 	}
@@ -34,9 +34,9 @@ void Identity<T>::print()
 {
 	std::cout << "identity:" << typeid(this).name() << std::endl;
 
-	for (int i = 0; i < this->x_size; i++)
+	for (int i = 0; i < this->rows; i++)
 	{
-		for (int j = 0; j < this->y_size; j++)
+		for (int j = 0; j < this->collums; j++)
 		{
 			std::cout << this->get(i, j) << "\t";
 		}

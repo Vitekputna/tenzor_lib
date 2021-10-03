@@ -3,23 +3,24 @@
 #include "tenzor.h"
 #include "Identity.h"
 
-
 int main()
 {
-	tenzor<int> A(2,2);
-	A.get(0, 0) = 5;
-	A.get(0, 1) = 3;
-	A.get(1, 0) = 4;
-	A.print();
+	Identity<int> A(3, 2);
+	A.get(0, 1) = 2;
+	A.get(1, 0) = 3;
+	A.get(1, 1) = 4;
+	A.get(2, 0) = 9;
+	A.get(2, 1) = 5;
 
-	Identity<int> B(2,2);
+	tenzor<int> B(2, 1);
+	B.get(0, 0) = 2;
+	B.get(1, 0) = 3;
+
+	A.print();
 	B.print();
 
-	tenzor<int> C = A-B;
-	C.print();
+	tenzor<int> C = A * B;
 
-	int a = 2;
-	int b = 2;
-	tenzor<int> D = a*A*b;
-	D.print();
+	C.print();
 }
+

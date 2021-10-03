@@ -7,7 +7,7 @@ class Identity : public tenzor<T>
 public:
 	Identity();
 	~Identity();
-	Identity(int x_size,int y_size);
+	Identity(int rows,int collums);
 	void print();
 };
 

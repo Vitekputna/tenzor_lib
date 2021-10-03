@@ -1,12 +1,14 @@
 #include "tenzor.h"
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 template<typename T>
 inline tenzor<T>::tenzor()
 {
-	x_size = 0;
-	y_size = 0;
+	rows = 0;
+	collums = 0;
 	data_p = NULL;
 }
 
@@ -17,12 +19,12 @@ tenzor<T>::~tenzor()
 }
 
 template<typename T>
-tenzor<T>::tenzor(int x_size, int y_size)
+tenzor<T>::tenzor(int rows, int collums)
 {
-	this->x_size = x_size;
-	this->y_size = y_size;
+	this->rows = rows;
+	this->collums = collums;
 
-	data_p = reinterpret_cast<T*>(calloc(x_size * y_size, sizeof(T)));
+	data_p = reinterpret_cast<T*>(calloc(rows * collums, sizeof(T)));
 }
 
 template<typename T>
@@ -35,16 +37,15 @@ T& tenzor<T>::operator[](const int pos)
 template<typename T>
 tenzor<T> tenzor<T>::operator+(tenzor<T> &other)
 {
-	tenzor<T> output(other.x_size,other.y_size);
+	tenzor<T> output(other.rows,other.collums);
 
-	for (int i = 0; i < x_size; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < y_size; j++)
+		for (int j = 0; j < collums; j++)
 		{
 			output.get(i, j) = this->get(i, j) + other.get(i,j);
 		}
 	}
-
 	
 	return output;
 }
@@ -52,16 +53,47 @@ tenzor<T> tenzor<T>::operator+(tenzor<T> &other)
 template<typename T>
 tenzor<T> tenzor<T>::operator-(tenzor<T>& other)
 {
-	tenzor<T> output(other.x_size, other.y_size);
+	tenzor<T> output(other.rows, other.collums);
 
-	for (int i = 0; i < x_size; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < y_size; j++)
+		for (int j = 0; j < collums; j++)
 		{
 			output.get(i, j) = this->get(i, j) - other.get(i, j);
 		}
 	}
 
+	return output;
+}
+
+template<typename T>
+tenzor<T> tenzor<T>::operator*(tenzor<T>& other)
+{
+	if (this->collums != other.rows)
+	{
+		std::cout << "wrong matrix dimentions" << std::endl;
+		tenzor<T> E;
+		return E;
+	}
+	
+	int num_of_sums = this->collums;
+
+	int o_rows = this->rows;
+	int o_collums = other.collums;
+
+	tenzor<T> output(o_rows, o_collums);
+
+	for (int i = 0; i < o_rows; i++)
+	{
+		for (int j = 0; j < o_collums; j++)
+		{
+			for (int k = 0; k < num_of_sums;k++)
+			{
+				
+				output.get(i, j) += this->get(i,k)*other.get(k,j);
+			}
+		}
+	}
 
 	return output;
 }
@@ -69,11 +101,11 @@ tenzor<T> tenzor<T>::operator-(tenzor<T>& other)
 template<typename T>
 tenzor<T> tenzor<T>::operator*(int number)
 {
-	tenzor<T> output(x_size, y_size);
+	tenzor<T> output(rows, collums);
 
-	for (int i = 0; i < x_size; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < y_size; j++)
+		for (int j = 0; j < collums; j++)
 		{
 			output.get(i, j) = number * this->get(i, j);
 		}
@@ -91,16 +123,16 @@ tenzor<T> tenzor<T>::operator*(float number)
 template<typename T>
 tenzor<T>::tenzor(const tenzor& A)
 {
-	x_size = A.x_size;
-	y_size = A.y_size;
+	rows = A.rows;
+	collums = A.collums;
 
 	
 
-	data_p = reinterpret_cast<T*>(malloc(x_size * y_size*sizeof(T)));
+	data_p = reinterpret_cast<T*>(malloc(rows * collums*sizeof(T)));
 
 	if (data_p)
 	{
-		std::memcpy(data_p, A.data_p, x_size * y_size * sizeof(T));
+		std::memcpy(data_p, A.data_p, rows * collums* sizeof(T));
 	}
 }
 
@@ -108,7 +140,7 @@ template<typename T>
 T& tenzor<T>::get(const int x, const int y)
 {
 	T* address = data_p;
-	return address[y*x_size+x];
+	return address[x*collums+y];
 }
 
 template<typename T>
@@ -116,9 +148,9 @@ void tenzor<T>::print()
 {
 	std::cout << "matrix:" << typeid(this).name() << std::endl;
 
-	for (int i = 0; i < x_size; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < y_size; j++)
+		for (int j = 0; j < collums; j++)
 		{
 			std::cout << this->get(i, j) << "\t";
 		}
@@ -126,7 +158,40 @@ void tenzor<T>::print()
 	}
 }
 
+template<typename T>
+void tenzor<T>::print_to_file(std::string name)
+{
+	std::ofstream file(name);
+
+	int r = 1;
+	for (int i = 0; i < rows*collums; i++)
+	{
+		file << this->data_p[i] << " ";
+
+		if (i == (collums*r-1))
+		{
+			file << "\n";
+			r++;
+		}
+	}
+	file.close();
+}
+
+template<typename T>
+T* tenzor<T>::row(const int row)
+{
+	return data_p + row * collums;
+}
+
+template<typename T>
+T* tenzor<T>::collum(const int collum)
+{
+	std::cout << "no worky worky" << std::endl;
+	return 0;
+}
+
 
 template class tenzor<int>;
 template class tenzor<char>;
+template class tenzor<float>;
 template class tenzor<double>;
