@@ -12,7 +12,11 @@ int main()
 	A.get(2, 0) = 9;
 	A.get(2, 1) = 5;
 
-	matrix<int> B(2, 1);
+	matrix<int> A_d = lower(A);
+	A.print();
+	A_d.print();
+
+	/*matrix<int> B(2, 1);
 	B.get(0, 0) = 2;
 	B.get(1, 0) = 3;
 
@@ -21,6 +25,6 @@ int main()
 
 	matrix<int> C = A * B;
 
-	C.print();
+	C.print();*/
 }
 
