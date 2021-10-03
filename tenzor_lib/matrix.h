@@ -3,23 +3,23 @@
 #include <string>
 
 template<typename T>
-class tenzor
+class matrix
 {
 public:
 	int rows;
 	int collums;
 	T* data_p;
 
-	tenzor();
-	~tenzor();
-	tenzor(int rows, int collums);
+	matrix();
+	~matrix();
+	matrix(int rows, int collums);
 	T& operator[](const int pos);
-	tenzor<T> operator+(tenzor<T> &other);
-	tenzor<T> operator-(tenzor<T> &other);
-	tenzor<T> operator*(tenzor<T>& other);
-	tenzor<T> operator*(int number);
-	tenzor<T> operator*(float number);
- 	tenzor(const tenzor& A);
+	matrix<T> operator+(matrix<T> &other);
+	matrix<T> operator-(matrix<T> &other);
+	matrix<T> operator*(matrix<T>& other);
+	matrix<T> operator*(int number);
+	matrix<T> operator*(float number);
+ 	matrix(const matrix& A);
 	T& get(const int row, const int collum);
 	T* row(const int row);
 	T* collum(const int collum);
@@ -28,7 +28,7 @@ public:
 };
 
 template<typename T>
-tenzor<T> operator*(const int number, tenzor<T>& rhs)
+matrix<T> operator*(const int number, matrix<T>& rhs)
 {
 	return rhs * number;
 }

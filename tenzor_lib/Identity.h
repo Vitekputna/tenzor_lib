@@ -1,8 +1,8 @@
 #pragma once
-#include "tenzor.h"
+#include "matrix.h"
 
 template<typename T>
-class Identity : public tenzor<T>
+class Identity : public matrix<T>
 {
 public:
 	Identity();

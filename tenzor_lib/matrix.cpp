@@ -1,11 +1,11 @@
-#include "tenzor.h"
+#include "matrix.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 
 template<typename T>
-inline tenzor<T>::tenzor()
+inline matrix<T>::matrix()
 {
 	rows = 0;
 	collums = 0;
@@ -13,13 +13,13 @@ inline tenzor<T>::tenzor()
 }
 
 template<typename T>
-tenzor<T>::~tenzor()
+matrix<T>::~matrix()
 {
 	free(data_p);
 }
 
 template<typename T>
-tenzor<T>::tenzor(int rows, int collums)
+matrix<T>::matrix(int rows, int collums)
 {
 	this->rows = rows;
 	this->collums = collums;
@@ -28,16 +28,16 @@ tenzor<T>::tenzor(int rows, int collums)
 }
 
 template<typename T>
-T& tenzor<T>::operator[](const int pos)
+T& matrix<T>::operator[](const int pos)
 {
 	T* address = data_p;
 	return address[pos];
 }
 
 template<typename T>
-tenzor<T> tenzor<T>::operator+(tenzor<T> &other)
+matrix<T> matrix<T>::operator+(matrix<T> &other)
 {
-	tenzor<T> output(other.rows,other.collums);
+	matrix<T> output(other.rows,other.collums);
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -51,9 +51,9 @@ tenzor<T> tenzor<T>::operator+(tenzor<T> &other)
 }
 
 template<typename T>
-tenzor<T> tenzor<T>::operator-(tenzor<T>& other)
+matrix<T> matrix<T>::operator-(matrix<T>& other)
 {
-	tenzor<T> output(other.rows, other.collums);
+	matrix<T> output(other.rows, other.collums);
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -67,12 +67,12 @@ tenzor<T> tenzor<T>::operator-(tenzor<T>& other)
 }
 
 template<typename T>
-tenzor<T> tenzor<T>::operator*(tenzor<T>& other)
+matrix<T> matrix<T>::operator*(matrix<T>& other)
 {
 	if (this->collums != other.rows)
 	{
 		std::cout << "wrong matrix dimentions" << std::endl;
-		tenzor<T> E;
+		matrix<T> E;
 		return E;
 	}
 	
@@ -81,7 +81,7 @@ tenzor<T> tenzor<T>::operator*(tenzor<T>& other)
 	int o_rows = this->rows;
 	int o_collums = other.collums;
 
-	tenzor<T> output(o_rows, o_collums);
+	matrix<T> output(o_rows, o_collums);
 
 	for (int i = 0; i < o_rows; i++)
 	{
@@ -99,9 +99,9 @@ tenzor<T> tenzor<T>::operator*(tenzor<T>& other)
 }
 
 template<typename T>
-tenzor<T> tenzor<T>::operator*(int number)
+matrix<T> matrix<T>::operator*(int number)
 {
-	tenzor<T> output(rows, collums);
+	matrix<T> output(rows, collums);
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -115,13 +115,13 @@ tenzor<T> tenzor<T>::operator*(int number)
 }
 
 template<typename T>
-tenzor<T> tenzor<T>::operator*(float number)
+matrix<T> matrix<T>::operator*(float number)
 {
-	return tenzor<T>();
+	return matrix<T>();
 }
 
 template<typename T>
-tenzor<T>::tenzor(const tenzor& A)
+matrix<T>::matrix(const matrix& A)
 {
 	rows = A.rows;
 	collums = A.collums;
@@ -137,14 +137,14 @@ tenzor<T>::tenzor(const tenzor& A)
 }
 
 template<typename T>
-T& tenzor<T>::get(const int x, const int y)
+T& matrix<T>::get(const int x, const int y)
 {
 	T* address = data_p;
 	return address[x*collums+y];
 }
 
 template<typename T>
-void tenzor<T>::print()
+void matrix<T>::print()
 {
 	std::cout << "matrix:" << typeid(this).name() << std::endl;
 
@@ -159,7 +159,7 @@ void tenzor<T>::print()
 }
 
 template<typename T>
-void tenzor<T>::print_to_file(std::string name)
+void matrix<T>::print_to_file(std::string name)
 {
 	std::ofstream file(name);
 
@@ -178,20 +178,20 @@ void tenzor<T>::print_to_file(std::string name)
 }
 
 template<typename T>
-T* tenzor<T>::row(const int row)
+T* matrix<T>::row(const int row)
 {
 	return data_p + row * collums;
 }
 
 template<typename T>
-T* tenzor<T>::collum(const int collum)
+T* matrix<T>::collum(const int collum)
 {
 	std::cout << "no worky worky" << std::endl;
 	return 0;
 }
 
 
-template class tenzor<int>;
-template class tenzor<char>;
-template class tenzor<float>;
-template class tenzor<double>;
+template class matrix<int>;
+template class matrix<char>;
+template class matrix<float>;
+template class matrix<double>;
