@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include "Identity.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -215,7 +216,6 @@ T* matrix<T>::collum(const int collum)
 	std::cout << "no worky worky" << std::endl;
 	return 0;
 }
-
 
 template class matrix<int>;
 template class matrix<char>;

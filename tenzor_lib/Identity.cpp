@@ -30,6 +30,22 @@ Identity<T>::Identity(int rows, int collums)
 }
 
 template<typename T>
+Identity<T> Identity<T>::operator*(int number)
+{
+	Identity<T> output(this->rows, this->collums);
+
+	for (int i = 0; i < this->rows; i++)
+	{
+		for (int j = 0; j < this->collums; j++)
+		{
+			output.get(i, j) = number * this->get(i, j);
+		}
+	}
+
+	return output;
+}
+
+template<typename T>
 void Identity<T>::print()
 {
 	std::cout << "identity:" << typeid(this).name() << std::endl;

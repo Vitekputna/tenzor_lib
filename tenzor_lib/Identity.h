@@ -8,6 +8,7 @@ public:
 	Identity();
 	~Identity();
 	Identity(int rows,int collums);
+	Identity<T> operator*(int number);
 	void print();
 };
 
@@ -27,7 +28,6 @@ matrix<T> LU_lower(matrix<T>& other)
 			}
 
 			double k = -output.get(j, i) / output.get(i, i);
-			std::cout << k << std::endl;
 
 			real_output.get(j, i) = -k;
 
@@ -43,3 +43,8 @@ matrix<T> LU_lower(matrix<T>& other)
 	return real_output;
 }
 
+template<typename T>
+Identity<T> operator*(const int number, Identity<T>& rhs)
+{
+	return rhs * number;
+}

@@ -145,8 +145,33 @@ matrix<T> LU_upper(matrix<T>& other)
 	return output;
 }
 
+template<typename T>
+T det(matrix<T>& mat)
+{
+	T determinant = 1;
+	matrix<T> U = LU_upper(mat);
+	matrix<T> L = LU_lower(mat);
 
+	for (int i = 0; i < mat.rows; i++)
+	{
+		determinant *= U.get(i, i) * L.get(i, i);
+	}
 
+	return determinant;
+}
+
+template<typename T>
+matrix<T> diag_inv(matrix<T>& other)
+{
+	matrix<T> output(other.rows, other.collums);
+	for (int i = 0; i < other.rows; i++)
+	{
+		T val = other.get(i, i);
+		output.get(i, i) = 1 / val;
+	}
+
+	return output;
+}
 
 
 
