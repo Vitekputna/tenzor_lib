@@ -145,32 +145,7 @@ matrix<T> LU_upper(matrix<T>& other)
 	return output;
 }
 
-template<typename T>
-matrix<T> LU_lower(matrix<T>& other)
-{
-	matrix<T> output = other;
 
-	for (int i = output.collums-1; i >= 0; i--)
-	{
-		for (int j = i-1; j >= 0;j--)
-		{
-			if (output.get(i, i) == 0 && i != 0)
-			{
-				output.swap_row(i, i - 1);
-			}
-
-			double k = -output.get(j, i) / output.get(i, i);
-
-			for (int ii = 0; ii < output.collums; ii++)
-			{
-				output.get(j, ii) += k * output.get(i, ii);
-			}
-
-		}
-	}
-
-	return output;
-}
 
 
 

@@ -18,8 +18,14 @@ int main()
 
 	A.print();
 	
-	matrix<double> U = LU_lower(A);
+	matrix<double> L = LU_lower(A);
+	L.print();
+
+	matrix<double>	U = LU_upper(A);
 	U.print();
+
+	matrix<double> B = L * U;
+	B.print();
 	
 }
 
