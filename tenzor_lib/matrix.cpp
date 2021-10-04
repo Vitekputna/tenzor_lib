@@ -178,6 +178,32 @@ void matrix<T>::print_to_file(std::string name)
 }
 
 template<typename T>
+void matrix<T>::swap_row(int from, int to)
+{
+	T* temp = reinterpret_cast<T*>(calloc(collums, sizeof(T)));
+
+	if (temp)
+	{
+		for (int i = 0; i < collums; i++)
+		{
+			temp[i] = this->get(from, i);
+		}
+
+		for (int i = 0; i < collums; i++)
+		{
+			this->get(from, i) = this->get(to, i);
+		}
+
+		for (int i = 0; i < collums; i++)
+		{
+			this->get(to, i) = temp[i];
+		}
+
+		free(temp);
+	}
+}
+
+template<typename T>
 T* matrix<T>::row(const int row)
 {
 	return data_p + row * collums;

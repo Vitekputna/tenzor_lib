@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <stdio.h>
 #include <string>
 
@@ -25,6 +26,8 @@ public:
 	T* collum(const int collum);
 	void print();
 	void print_to_file(std::string mame);
+
+	void swap_row(int from, int to);
 
 };
 
@@ -112,8 +115,62 @@ matrix<T> lower(matrix<T>& other)
 	}
 
 	return output;
+} 
+
+template<typename T>
+matrix<T> LU_upper(matrix<T>& other)
+{
+	matrix<T> output = other;
+
+	for (int i = 0; i < output.collums-1; i++)
+	{
+		for (int j = i+1; j < output.rows; j++)
+		{
+			if (output.get(i, i) == 0 && i != output.rows-1)
+			{
+				output.swap_row(i, i + 1);
+			}
+
+			double k = -output.get(j,i)/output.get(i,i);
+
+
+			for (int ii = 0; ii < output.collums; ii++)
+			{
+				output.get(j, ii) += k * output.get(i, ii);
+			}
+			
+		}
+	}
+
+	return output;
 }
 
+template<typename T>
+matrix<T> LU_lower(matrix<T>& other)
+{
+	matrix<T> output = other;
+
+	for (int i = output.collums-1; i >= 0; i--)
+	{
+		for (int j = i-1; j >= 0;j--)
+		{
+			if (output.get(i, i) == 0 && i != 0)
+			{
+				output.swap_row(i, i - 1);
+			}
+
+			double k = -output.get(j, i) / output.get(i, i);
+
+			for (int ii = 0; ii < output.collums; ii++)
+			{
+				output.get(j, ii) += k * output.get(i, ii);
+			}
+
+		}
+	}
+
+	return output;
+}
 
 
 
